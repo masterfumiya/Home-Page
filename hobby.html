@@ -39,7 +39,17 @@
     }
 
     .content {
-      padding-top: 18vh;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 64px 16px 48px;
+    }
+
+    .hobby-photo {
+      width: min(100%, 420px);
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+      margin-top: 16px;
     }
   </style>
 </head>
@@ -56,6 +66,12 @@
 
   <main class="content">
     <h1>旅行が好きです。</h1>
+    <img
+      class="hobby-photo"
+      src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Hashima_Island_seen_from_Nomozaki%2C_Nagasaki.jpg"
+      alt="海に浮かぶ軍艦島と手前に咲くコスモス"
+      loading="lazy"
+    />
   </main>
 </body>
 </html>
