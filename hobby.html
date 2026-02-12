@@ -41,15 +41,23 @@
     .content {
       max-width: 960px;
       margin: 0 auto;
-      padding: 64px 16px 48px;
+      padding: 56px 16px 48px;
+    }
+
+    .photo-frame {
+      margin: 24px auto 0;
+      width: min(100%, 860px);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
     }
 
     .hobby-photo {
-      width: min(100%, 420px);
+      display: block;
+      width: 100%;
       height: auto;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
-      margin-top: 16px;
+      border-radius: 10px;
     }
   </style>
 </head>
@@ -66,12 +74,15 @@
 
   <main class="content">
     <h1>旅行が好きです。</h1>
-    <img
-      class="hobby-photo"
-      src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Hashima_Island_seen_from_Nomozaki%2C_Nagasaki.jpg"
-      alt="海に浮かぶ軍艦島と手前に咲くコスモス"
-      loading="lazy"
-    />
+    <figure class="photo-frame">
+      <img
+        class="hobby-photo"
+        src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Hashima_Island_seen_from_Nomozaki%2C_Nagasaki.jpg"
+        alt="海に浮かぶ軍艦島と手前に咲くコスモス"
+        referrerpolicy="no-referrer"
+        decoding="async"
+      />
+    </figure>
   </main>
 </body>
 </html>
