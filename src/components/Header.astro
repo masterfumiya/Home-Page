@@ -1,0 +1,20 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Projects' },
+  { href: '#contact', label: 'Contact' }
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-neutral-200/80 bg-white/90 backdrop-blur">
+  <nav class="container-base flex h-16 items-center justify-between" aria-label="メインナビゲーション">
+    <a href="/" class="text-sm font-medium tracking-wide" aria-label="トップページへ移動">Fumiya Morishita</a>
+    <ul class="flex items-center gap-6 text-sm text-neutral-700">
+      {links.map((link) => (
+        <li>
+          <a href={link.href} class="transition hover:text-neutral-950">{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>

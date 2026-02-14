@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { siteMeta } from '@/utils/seo';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project }
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+const projects = (await getCollection('projects')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+const index = projects.findIndex((item) => item.slug === project.slug);
+const prev = projects[index + 1];
+const next = projects[index - 1];
+
+const projectLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.data.title,
+  description: project.data.summary,
+  dateCreated: project.data.date,
+  programmingLanguage: project.data.tags,
+  url: `${siteMeta.siteUrl}/projects/${project.slug}`
+};
+---
+
+<BaseLayout title={`${project.data.title} | Projects`} description={project.data.summary} pathname={`/projects/${project.slug}`}>
+  <Header />
+  <main class="section">
+    <article class="container-base">
+      <p class="text-sm text-neutral-500">{project.data.date}</p>
+      <h1 class="mt-4 text-4xl font-semibold md:text-6xl">{project.data.title}</h1>
+      <p class="mt-6 max-w-3xl leading-relaxed text-neutral-700">{project.data.summary}</p>
+      <div class="mt-6 flex flex-wrap gap-2">
+        {project.data.tags.map((tag) => <span class="rounded bg-neutral-100 px-2.5 py-1 text-xs text-neutral-700">{tag}</span>)}
+      </div>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href={project.data.repoUrl} target="_blank" rel="noreferrer" class="rounded-md border border-neutral-300 px-5 py-2.5 text-sm font-medium">Repo</a>
+        <a href={project.data.demoUrl} target="_blank" rel="noreferrer" class="rounded-md bg-accent px-5 py-2.5 text-sm font-medium text-white">Demo</a>
+      </div>
+
+      <div class="prose prose-neutral mt-12 max-w-none leading-relaxed">
+        <Content />
+      </div>
+
+      <nav class="mt-16 grid gap-4 border-t border-neutral-200 pt-8 md:grid-cols-2" aria-label="前後プロジェクト">
+        <div>
+          {prev && (
+            <a href={`/projects/${prev.slug}`} class="block rounded-lg border border-neutral-200 p-4 hover:border-neutral-400">
+              <p class="text-xs text-neutral-500">Previous</p>
+              <p class="mt-1 font-medium">{prev.data.title}</p>
+            </a>
+          )}
+        </div>
+        <div>
+          {next && (
+            <a href={`/projects/${next.slug}`} class="block rounded-lg border border-neutral-200 p-4 hover:border-neutral-400">
+              <p class="text-xs text-neutral-500">Next</p>
+              <p class="mt-1 font-medium">{next.data.title}</p>
+            </a>
+          )}
+        </div>
+      </nav>
+    </article>
+  </main>
+  <Footer />
+  <script type="application/ld+json" set:html={JSON.stringify(projectLd)}></script>
+</BaseLayout>
